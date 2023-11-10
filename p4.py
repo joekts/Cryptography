@@ -21,103 +21,71 @@ def brute_force():
     # Start timer
     start = time.time()
 
+    print("")
+
     # Loop through all possible combinations of characters
     for length in range(1, max_length + 1):
         # Generate and loop through all possible combinations of characters
         for guess in itertools.product(characters, repeat=length):
             # Convert guess to string
             guess = ''.join(guess)
+
+            #Just there to see the progress
             print(guess)
+            
             #Check if hash of guess matches hashed_password
             if hash_string(guess) == hashed_password:
                 cracked_password = guess
                 break
+            
+        # Break out of outer loop if password is cracked
+        if cracked_password != '':
+            break
 
     # Stop timer
     end = time.time()
 
     # Print results
-    if cracked_password:
-        print("Password cracked:", cracked_password)
-    else:
-        print("Password could not be cracked")
-
+    
+    print("Password:", cracked_password)
     print("Time taken:", end - start, "seconds")
 
 brute_force()
 
 #Methods from previous practicals for Set B and C
 
+#Edited needs to be tested
 def mini_ISBN(raw):
-    # Print instructions
-    print("Enter a mini-ISBN to validate (digits only):")
+    
+    # Initialize integer array
+    ISBN = [0] * 6
 
-    # Restarts method if invalid number is given
-    if len(raw) != 5 and len(raw) != 6:
-        print("This is not a valid mini-ISBN, try again")
-        mini_ISBN()
-        return
+    # Add user input to integer array
+    for i in range(len(raw)):
+        # Assigning digit to a temporary object
+        temp = raw[i]
 
-    # Checking if 5 or 6 digits are given and using appropriate method
-    if len(raw) == 6:
-        # Initialize integer array
-        ISBN = [0] * 6
-
-        # Add user input to integer array
-        for i in range(len(raw)):
-            # Assigning digit to a temporary object
-            temp = raw[i]
-
-            # Checking for X in the ISBN and converting it to 10
-            if temp == 'X':
-                ISBN[i] = 10
-            else:
-                ISBN[i] = int(temp)
-
-        # Calculating equation and reaching a total
-        count = 0
-
-        for i in range(len(raw)):
-            count += ISBN[i] * (len(raw) - i)
-
-        # Checking if total mod 7 = 0
-        if count % 7 == 0:
-            print("Valid mini-ISBN")
+        # Checking for X in the ISBN and converting it to 10
+        if temp == 'X':
+            ISBN[i] = 10
         else:
-            print("Invalid mini-ISBN")
+            ISBN[i] = int(temp)
+
+    # Calculating equation and reaching a total
+    count = 0
+
+    for i in range(len(raw)):
+        count += ISBN[i] * (len(raw) - i)
+
+    # Checking if total mod 7 = 0
+    if count % 7 == 0:
+        return True
     else:
-        # Initialize integer array
-        ISBN = [0] * 5
+        return False
+    
 
-        # Add user input to integer array
-        for i in range(len(raw)):
-            # Assigning digit to a temporary object
-            temp = raw[i]
 
-            # Checking for X in the ISBN and converting it to 10
-            if temp == 'X':
-                ISBN[i] = 10
-            else:
-                ISBN[i] = int(temp)
 
-        count = 0
-
-        for i in range(len(raw)):
-            count += ISBN[i] * (6 - i)
-
-        digit6 = []
-
-        for i in range(11):
-            if (count + i) % 7 == 0:
-                digit6.append(i)
-
-        if digit6:
-            print("Possible outcomes for the sixth digit are: ")
-            for i in digit6:
-                print(i)
-            print("The mini-ISBN number is " + raw + str(digit6))
-        else:
-            print("This does not seem to be a valid mini-ISBN")
 
 def bch_encoder():
     print("Input 6 digits:")
