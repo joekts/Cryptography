@@ -10,6 +10,7 @@ def validate_ISBN():
         print("This is not an ISBN, try again")
         validate_ISBN()
         return
+    
 
     # Initialize integer array
     ISBN = [0] * 10
@@ -111,5 +112,5 @@ def mini_ISBN():
             print("This does not seem to be a valid mini-ISBN")
 
 # Call the functions to run the code
-validate_ISBN()
+#validate_ISBN()
 mini_ISBN()

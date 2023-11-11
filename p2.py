@@ -57,3 +57,5 @@ def sqrt(integer):
         return 3
     else:
         return -1
+
+bch_encoder()
