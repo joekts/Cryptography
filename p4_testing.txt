@@ -15,9 +15,11 @@ Time taken: 0.4769580364227295 seconds
 
 
 5. 1b6453892473a467d07372d45eb05abc2031647a
-
+Password: 4
+Time taken: 0.0001499652862548828 seconds
 
 6. 3bb9cdac38c5c43cd6cbe4752c40041d58894545
-
+Password: BETTER
+Time taken: 263.44849729537964 seconds
 
 7. 3c3b274d119ff5a5ec6c1e215c1cb794d9973ac1 
