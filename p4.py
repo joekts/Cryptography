@@ -2,163 +2,6 @@ import hashlib
 import itertools
 import time
 
-#Function to hash an input string and return hexdecimal digest
-def hash_string(string):
-    return hashlib.sha1(string.encode('utf-8')).hexdigest()
-
-# Set A
-def brute_force():
-    # Print instructions
-    print("Enter a hashed password to brute force:")
-
-    # Get user input
-    hashed_password = input()
-
-    characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    cracked_password = ''
-    max_length = 6
-
-    # Start timer
-    start = time.time()
-
-    print("")
-
-    # Loop through all possible combinations of characters
-    for length in range(1, max_length + 1):
-        # Generate and loop through all possible combinations of characters
-        for guess in itertools.product(characters, repeat=length):
-            # Convert guess to string
-            guess = ''.join(guess)
-
-            #Just there to see the progress
-            print(guess)
-            
-            #Check if hash of guess matches hashed_password
-            if hash_string(guess) == hashed_password:
-                cracked_password = guess
-                break
-            
-        # Break out of outer loop if password is cracked
-        if cracked_password != '':
-            break
-
-    # Stop timer
-    end = time.time()
-
-    # Print results
-    
-    print("Password:", cracked_password)
-    print("Time taken:", end - start, "seconds")
-
-def brute_force():
-    # Choose a set instructions
-    print("Choose a set to brute force (A, B or C):")
-
-    # Get user input
-    set = input()
-
-    # Check if input is valid
-    if set != 'A' and set != 'B' and set != 'C':
-        print("Invalid set, try again")
-        brute_force()
-        return
-    
-    # Print instructions
-    print("Enter a hashed password to brute force:")
-
-    # Get user input
-    hashed_password = input()
-    
-    # Start timer
-    start = time.time()
-
-    cracked_password = ''
-    max_length = 6
-    
-    if set == 'A':
-
-        characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-
-        # Loop through all possible combinations of characters
-        for length in range(1, max_length + 1):
-            # Generate and loop through all possible combinations of characters
-            for guess in itertools.product(characters, repeat=length):
-                # Convert guess to string
-                guess = ''.join(guess)
-
-                #Just there to see the progress
-                print(guess)
-                
-                #Check if hash of guess matches hashed_password
-                if hash_string(guess) == hashed_password:
-                    cracked_password = guess
-                    break
-            
-            # Break out of outer loop if password is cracked
-            if cracked_password != '':
-                break
-    
-    elif set == 'B':
-
-        characters = '0123456789X'
-
-        # Loop through all possible combinations of characters
-        for length in range(1, max_length + 1):
-            # Generate and loop through all possible combinations of characters
-            for guess in itertools.product(characters, repeat=length):
-                # Convert guess to string
-                guess = ''.join(guess)
-
-                #Just there to see the progress
-                print(guess)
-                
-                #Check if hash of guess matches hashed_password
-                if mini_ISBN(guess):
-                    if hash_string(guess) == hashed_password:
-                        cracked_password = guess
-                        break
-
-            # Break out of outer loop if password is cracked
-            if cracked_password != '':
-                break
-
-    elif set == 'C':
-            
-            characters = '0123456789'
-    
-            # Loop through all possible combinations of characters
-            for length in range(1, max_length + 1):
-                # Generate and loop through all possible combinations of characters
-                for guess in itertools.product(characters, repeat=length):
-                    # Convert guess to string
-                    guess = ''.join(guess)
-    
-                    #Just there to see the progress
-                    print(guess)
-                    
-                    #Check if hash of guess matches hashed_password
-                    if bch_encoder(guess):
-                        if hash_string(guess) == hashed_password:
-                            cracked_password = guess
-                            break
-    
-                # Break out of outer loop if password is cracked
-                if cracked_password != '':
-                    break
-        
-    # Stop timer
-    end = time.time()
-
-    # Print results
-    
-    print("Password:", cracked_password)
-    print("Time taken:", end - start, "seconds")
-
-    
-
-
-brute_force()
-
 #Methods from previous practicals for Set B and C
 
 def mini_ISBN(raw):
@@ -207,8 +50,11 @@ def bch_encoder(raw):
     # Ensuring no parity digits are 10
     if 10 in codeword[6:]:
         return False
-    else:
-        return True
+
+    # Concatenating the codeword
+    codeword = ''.join(str(i) for i in codeword)
+
+    return codeword
 
 def mod11(integer):
     return integer % 11
@@ -234,3 +80,101 @@ def sqrt(integer):
     else:
         return -1
     
+
+
+#Function to hash an input string and return hexdecimal digest
+def hash_string(string):
+    return hashlib.sha1(string.encode('utf-8')).hexdigest()
+
+
+def brute_force():
+    # Choose a set instructions
+    print("Choose a set to brute force (A, B or C):")
+
+    # Get user input
+    set = input()
+
+    # Check if input is valid
+    if set != 'A' and set != 'B' and set != 'C':
+        print("Invalid set, try again")
+        brute_force()
+        return
+    
+    # Print instructions
+    print("Enter a hashed password to brute force:")
+
+    # Get user input
+    hashed_password = input()
+    
+    # Start timer
+    start = time.time()
+
+    cracked_password = ''
+    max_length = 6
+    
+    if set == 'A':
+
+        characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+
+        # Loop through all possible codeword lengths
+        for length in range(1, max_length + 1):
+            # Generate and loop through all possible combinations of characters
+            for guess in itertools.product(characters, repeat=length):
+                # Convert guess to string
+                guess = ''.join(guess)
+
+                #Check if hash of guess matches hashed_password
+                if hash_string(guess) == hashed_password:
+                    cracked_password = guess
+                    break
+            
+            # Break out of outer loop if password is cracked
+            if cracked_password != '':
+                break
+    
+    elif set == 'B':
+
+        characters = '0123456789X'
+
+        
+        for guess in itertools.product(characters, repeat =6):
+            # Convert guess to string
+            guess = ''.join(guess)
+
+            #Check if hash of guess matches hashed_password
+            if mini_ISBN(guess):
+                if hash_string(guess) == hashed_password:
+                    cracked_password = guess
+                    break
+
+            
+
+    elif set == 'C':
+            
+        characters = '0123456789'
+
+        # Generate and loop through all possible combinations of characters
+        for guess in itertools.product(characters, repeat=6):
+            # Convert guess to string
+            guess = ''.join(guess)
+
+            guess = bch_encoder(guess)
+
+            if guess != False:
+                #Check if hash of guess matches hashed_password
+                if hash_string(guess) == hashed_password:
+                    cracked_password = guess
+                    break
+
+    # Stop timer
+    end = time.time()
+
+    # Print results
+    
+    print("Password:", cracked_password)
+    print("Time taken:", end - start, "seconds")
+
+    
+brute_force()
+
+

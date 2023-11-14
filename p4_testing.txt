@@ -2,10 +2,11 @@ SET A:
 
 1. 5f4395a75c71fe04b6156d6290da65a27f17e138
 Password: MAKE
-Time taken: 0.3816862106323242 seconds
+Time taken: 0.3816862106323242 seconds (Mac)
 
 2. 16607928013478be20d30ccd60d958149bd48541
-
+Password: 1YOUR1
+Time taken: 1388.9995591640472 seconds
 
 3. 74fcb3939fb7460f1e6a00a32ca45510ebff9ffa
 Password: PWD5
@@ -16,10 +17,55 @@ Time taken: 0.4769580364227295 seconds
 
 5. 1b6453892473a467d07372d45eb05abc2031647a
 Password: 4
-Time taken: 0.0001499652862548828 seconds
+Time taken: 0.0001499652862548828 seconds (Mac)
 
 6. 3bb9cdac38c5c43cd6cbe4752c40041d58894545
 Password: BETTER
-Time taken: 263.44849729537964 seconds
+Time taken: 263.44849729537964 seconds (Mac)
 
-7. 3c3b274d119ff5a5ec6c1e215c1cb794d9973ac1 
+Password: BETTER
+Time taken: 8336.40201330185 seconds (PC)
+
+7. 3c3b274d119ff5a5ec6c1e215c1cb794d9973ac1
+Password: SECRET
+Time taken: 719.6877624988556 seconds 
+
+Set B (PC):
+
+1. 7c4a8d09ca3762af61e59520943dc26494f8941b
+Password: 123456
+Time taken: 21.168654441833496 seconds
+
+2. dea742e166979027ae70b28e0a9006fb1010e760
+Password: 987654
+Time taken: 89.47166156768799 seconds
+
+3. 68952957dede23fe1fe06eb71d97f01bacb34197
+Password: 381241
+Time taken: 34.167041063308716 seconds
+
+4. 2a81b68e789b1a4681e05d1d3dc1a73625b8e5eb
+Password: 999992
+Time taken: 94.03555822372437 seconds
+
+5. 1b88ec85ffa1160d60fd7d8a58caa73e7184bcf6
+Password: 246804
+Time taken: 22.005724906921387 seconds
+
+Set C:
+
+1. c65ae8e178575337c340a501c09e0f3fc5410d2f
+Password: 9999984630
+Time taken: 2.923768997192383 seconds
+
+2. ea5eec7aa4cbc9a8ae54fd24a4c7ab26b39fc82a
+Password: 1234573350
+Time taken: 0.37862706184387207 seconds
+
+3. 6e72cda843dc64e1fe5b49243eeb1d6d1ec71509
+Password: 7653013937
+Time taken: 2.417623519897461 seconds
+
+4. c09108cc36c9de18012a1db7c88657ac5636b768
+Password: 9943026227
+Time taken: 2.977146863937378 seconds
