@@ -68,7 +68,7 @@ def brute_force():
     # Get user input
     set = input()
 
-    # Check if input is valid
+    # Check if input is valid, if not restart function
     if set != 'A' and set != 'B' and set != 'C':
         print("Invalid set, try again")
         brute_force()
@@ -83,21 +83,24 @@ def brute_force():
     # Start timer
     start = time.time()
 
+    # Initialize variables
     cracked_password = ''
     max_length = 6
     
     if set == 'A':
 
+        # Define characters to use in brute force
         characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 
         # Loop through all possible codeword lengths
         for length in range(1, max_length + 1):
             # Generate and loop through all possible combinations of characters
             for guess in itertools.product(characters, repeat=length):
+
                 # Convert guess to string
                 guess = ''.join(guess)
 
-                #Check if hash of guess matches hashed_password
+                #Check if hash of guess matches hashed_password, and break loop if it does
                 if hash_string(guess) == hashed_password:
                     cracked_password = guess
                     break
@@ -108,14 +111,16 @@ def brute_force():
     
     elif set == 'B':
 
+        # Define characters to use in brute force
         characters = '0123456789X'
 
-        
+        # Generate and loop through all possible combinations of characters
         for guess in itertools.product(characters, repeat =6):
+
             # Convert guess to string
             guess = ''.join(guess)
 
-            #Check if hash of guess matches hashed_password
+            #Check if hash of guess matches hashed_password, and break loop if it does
             if mini_ISBN(guess):
                 if hash_string(guess) == hashed_password:
                     cracked_password = guess
@@ -125,6 +130,7 @@ def brute_force():
 
     elif set == 'C':
             
+        # Define characters to use in brute force
         characters = '0123456789'
 
         # Generate and loop through all possible combinations of characters
@@ -132,10 +138,12 @@ def brute_force():
             # Convert guess to string
             guess = ''.join(guess)
 
+            # Encode guess using BCH encoder
             guess = bch_encoder(guess)
 
+            # Check if guess is a valid BCH codeword
             if guess != False:
-                #Check if hash of guess matches hashed_password
+                #Check if hash of guess matches hashed_password, and break loop if it does
                 if hash_string(guess) == hashed_password:
                     cracked_password = guess
                     break
