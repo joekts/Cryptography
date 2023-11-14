@@ -56,32 +56,6 @@ def bch_encoder(raw):
 
     return codeword
 
-def mod11(integer):
-    return integer % 11
-
-def inverse(integer):
-    for i in range(1, 11):
-        if (integer % 11) * (i % 11) % 11 == 1:
-            return i
-    return 1
-
-def sqrt(integer):
-    integer = integer % 11
-    if integer == 1:
-        return 1
-    elif integer == 3:
-        return 5
-    elif integer == 4:
-        return 2
-    elif integer == 5:
-        return 4
-    elif integer == 9:
-        return 3
-    else:
-        return -1
-    
-
-
 #Function to hash an input string and return hexdecimal digest
 def hash_string(string):
     return hashlib.sha1(string.encode('utf-8')).hexdigest()
