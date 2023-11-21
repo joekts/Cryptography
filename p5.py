@@ -1,4 +1,5 @@
 import random
+import re
 
 # PRNG
 def generate_key(msg_no, length):
@@ -155,4 +156,33 @@ def steganography(msg1, secret_msg, msg_no):
     msg1 = ' '.join(msg1)
     
     return msg1
+
+def decryption(ciphertext, msg_no):
+
+    # Split the ciphertext
+
+    # Identify string surrounded by '[' and ']' and add to a list, remove them from the ciphertext
+
+    # Strip the square brackets
+
+    # Split the string by the operator
+
+    # Split each string if they have a '.' and replace the the first bit and then insert the second into the list
+
+    # Generate a key of length of the list 
+
+    # Convert the key into binary, and then hexadecimal
+
+    # Make the list into one string and turn it into binary, then into hexadecimal
+
+    # XOR the two hexadecimal strings
+
+    # Convert the hexadecimal string into a string
+
+    # Convert the ciphertext into a string again
+
+    # Return the ciphertext and the secret message
+
+
+    
 
