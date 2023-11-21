@@ -74,39 +74,85 @@ def steganography(msg1, secret_msg, msg_no):
             # Add position to list
             positions.append(i)
 
-    print(positions)
+    # If msg1 contains no digits, find all strings containing an 'e'
+    if len(positions) == 0:
+
+        # Loop through msg1 and find all the strings containing an 'e'
+        for i in range(len(msg1)):
+            if 'e' in msg1[i]:
+                # Add position to list
+                positions.append(i)
+
+    # Loop through secret message and concatenate every two integers with a '.'
+    for i in range(len(secret) // 2):
+        secret[i] = str(secret[i]) + '.' + str(secret[i+1])
+        secret.pop(i+1)
+
 
     # Check if positions is empty
-    if len(positions) != 0:
-        
-        # Calculate the number of groups
-        groups = len(secret) // len(positions)
+    if len(positions) > 0:
 
+        # Check if positions is longer than secret, means that can assign one integer to each position
+        if len(positions) > len(secret):
 
-        # BROKEN NEEDS FIXING:
-        # Loop through positions
-        for i in range(len(positions)):
-            addition = ''
+            #print(len(positions))
 
-            for i in range(groups):
-                addition += str(secret.pop(0))
+            # Loop through positions
+            for i in range(len(positions)):
+                
+                # Check if secret[i] exists
+                if i < len(secret):
 
-                if(i != groups - 1):
-                    addition += random_operator()
+                    # Concatenates the secret message with the message
+                    msg1[positions[i]] += ' [' + secret[i] + ']'
 
-            msg1[positions[i]] += addition
+        # If positions is shorter than secret, means that need to assign more than one integer to each position
+        else:
 
+            # Calculate the group size, which is the number of integers to assign to each position
+            group_size = (len(secret) // len(positions)) + 1
+
+            # Loop through positions
+            for i in range(len(positions)):
+
+                # Start the concatenation of the string with a '['
+                msg1[positions[i]] += ' ['
+
+                # Loop through the group size
+                for z in range(group_size):
+
+                    # If down to the last integer, then concatenate with a ']' and break the loop
+                    if len(secret) == 1:
+
+                        msg1[positions[i]] += secret[0] + ']'
+
+                        # Remove the first element of the secret message
+                        secret.pop(0)
+
+                        break
+                    
+                    # Check if at the last integer of the group, then concatenate with a ']'
+                    elif z == group_size - 1:
+
+                        msg1[positions[i]] += secret[0] + ']'
+
+                        # Remove the first element of the secret message
+                        secret.pop(0)
+
+                        
+                    # Add integer with a random operator
+                    elif len(secret) > 0:
+
+                        # Concatenates the secret message with the message
+                        msg1[positions[i]] += secret[0] + random_operator()
+
+                        # Remove the first element of the secret message
+                        secret.pop(0)
+                    
+
+    
     # Convert list to string
-    steg_msg = ' '.join(msg1)
+    msg1 = ' '.join(msg1)
+    
+    return msg1
 
-
-
-
-    return steg_msg
-
-#print(encryption("task17", 1))
-
-#string = "How are you today? I had a very busy day! I travelled 400 miles returning to London. It was windy and rainy. The traffic was bad too. I managed to finish my job, ref No 3789. But I am really tired. If possible, can we cancel tonight’s meeting? See you soon. "
-#print(string.split())
-
-print(steganography("The meeting will take place at 514 St Andrew’s Place, at 2:30pm on Monday 12th December 2023. You should bring all necessary equipment with you, as none will be provided. Your bags may be searched on entry to the premises. Please do not be alarmed by this process, it is for your own safety and the safety of others. ", "task17", 1))
