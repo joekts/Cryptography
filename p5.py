@@ -46,9 +46,9 @@ def encryption(secret_msg, msg_no):
     # XOR the secret message and the key
     ciphertext = hex(int(secret_msg, 16) ^ int(key, 16))
 
-    # Convert ciphertext to binary string
+    # Convert ciphertext to binary string,
     ciphertext = bin(int(ciphertext, 16))
-
+    
     # Separate the binary string into groups of 8
     ciphertext = [ciphertext[i:i+8] for i in range(2, len(ciphertext), 8)]
 
@@ -96,8 +96,6 @@ def steganography(msg1, secret_msg, msg_no):
         # Check if positions is longer than secret, means that can assign one integer to each position
         if len(positions) > len(secret):
 
-            #print(len(positions))
-
             # Loop through positions
             for i in range(len(positions)):
                 
@@ -116,8 +114,9 @@ def steganography(msg1, secret_msg, msg_no):
             # Loop through positions
             for i in range(len(positions)):
 
-                # Start the concatenation of the string with a '['
-                msg1[positions[i]] += ' ['
+                if len(secret) > 0:
+                    # Start the concatenation of the string with a '['
+                    msg1[positions[i]] += ' ['
 
                 # Loop through the group size
                 for z in range(group_size):
@@ -125,7 +124,7 @@ def steganography(msg1, secret_msg, msg_no):
                     # If down to the last integer, then concatenate with a ']' and break the loop
                     if len(secret) == 1:
 
-                        msg1[positions[i]] += secret[0] + ']'
+                        msg1[positions[i]] += str(secret[0]) + ']'
 
                         # Remove the first element of the secret message
                         secret.pop(0)
@@ -135,10 +134,12 @@ def steganography(msg1, secret_msg, msg_no):
                     # Check if at the last integer of the group, then concatenate with a ']'
                     elif z == group_size - 1:
 
-                        msg1[positions[i]] += secret[0] + ']'
+                        if len(secret) > 0:
+                            msg1[positions[i]] += str(secret[0]) + ']'
 
-                        # Remove the first element of the secret message
-                        secret.pop(0)
+                            # Remove the first element of the secret message
+                            secret.pop(0)
+
 
                         
                     # Add integer with a random operator
@@ -150,7 +151,6 @@ def steganography(msg1, secret_msg, msg_no):
                         # Remove the first element of the secret message
                         secret.pop(0)
                     
-
     
     # Convert list to string
     msg1 = ' '.join(msg1)
@@ -160,29 +160,99 @@ def steganography(msg1, secret_msg, msg_no):
 def decryption(ciphertext, msg_no):
 
     # Split the ciphertext
+    ciphertext = ciphertext.split()
 
     # Identify string surrounded by '[' and ']' and add to a list, remove them from the ciphertext
+    secret = []
+    for i in range(len(ciphertext)):
+        if '[' in ciphertext[i]:
+            secret.append(ciphertext[i])
+            ciphertext[i] = ''
 
-    # Strip the square brackets
+    # Strip the square brackets, then split the string by the operator and '.'
+    for i in range(len(secret)):
+        secret[i] = secret[i].strip('[]')
+        secret[i] = re.split('\+|\-|\*|\/|\.', secret[i])
 
-    # Split the string by the operator
+    # Convert the list of lists into a list of integers
+    for i in range(len(secret)):
+        for z in range(len(secret[i])):
+            secret[i][z] = int(secret[i][z])
 
-    # Split each string if they have a '.' and replace the the first bit and then insert the second into the list
+    # Assign the integers to a new list to remove list nesting
+    secret2 = []
+    for i in range(len(secret)):
+        for z in range(len(secret[i])):
+            secret2.append(secret[i][z])
 
-    # Generate a key of length of the list 
+    # Generate a key of length of the list
+    key = generate_key(msg_no, len(secret2))
 
-    # Convert the key into binary, and then hexadecimal
+    # Convert the key into hexadecimal
+    key = key.encode('utf-8').hex()
 
-    # Make the list into one string and turn it into binary, then into hexadecimal
+    # Convert the secret list of integers into binary removing the '0b' prefix
+    secret2 = [bin(i)[2:] for i in secret2]
+
+    # Adding leading zeros to all but the last binary string
+    for i in range(len(secret2) - 1):
+        secret2[i] = secret2[i].zfill(8)
+    
+    # Concatenate the binary strings
+    secret2 = ''.join(secret2)
+
+    # Convert the binary string into hexadecimal
+    secret2 = hex(int(secret2, 2))
 
     # XOR the two hexadecimal strings
+    secret2 = hex(int(secret2, 16) ^ int(key, 16))
 
     # Convert the hexadecimal string into a string
+    secret2 = bytearray.fromhex(secret2[2:]).decode()
 
-    # Convert the ciphertext into a string again
+    # Join the ciphertext
+    ciphertext = ' '.join(ciphertext)
 
-    # Return the ciphertext and the secret message
+    # Print the ciphertext and the secret message
+    print('Ciphertext: ', ciphertext)
+    print('Secret message: ', secret2)
 
+# -------------------------
+# Testing
+# -------------------------
 
-    
+print('Test 1: ')
+print('')
+print('Encryption:')
+print('')
+print('Your encrypted message is: ', steganography('The meeting will take place at 514 St Andrew’s Place, at 2:30pm on Monday 12th December 2023. You should bring all necessary equipment with you, as none will be provided. Your bags may be searched on entry to the premises. Please do not be alarmed by this process, it is for your own safety and the safety of others.', 'task17', 1))
+print('')
+print('Decryption:')
+print('')
+decryption(steganography('The meeting will take place at 514 St Andrew’s Place, at 2:30pm on Monday 12th December 2023. You should bring all necessary equipment with you, as none will be provided. Your bags may be searched on entry to the premises. Please do not be alarmed by this process, it is for your own safety and the safety of others.', 'task17', 1), 1)
+print('')
+print('')
+print('Test 2: ')
+print('')
+print('Encryption:')
+print('')
+print('Your encrypted message is: ', steganography('On arrival at the venue, you should ask at reception for Dr. Black. You will then be escorted to Dr. Black’s office on the 23rd floor, in room 713B. In case of difficulty, please telephone 01172 346852 for assistance.', 'Ask for Bob', 1))
+print('')
+print('Decryption:')
+print('')
+decryption(steganography('On arrival at the venue, you should ask at reception for Dr. Black. You will then be escorted to Dr. Black’s office on the 23rd floor, in room 713B. In case of difficulty, please telephone 01172 346852 for assistance.', 'Ask for Bob', 1), 1)
+print('')
+print('')
+print('Test 3: ')
+print('')
+print('Encryption:')
+print('')
+print('Your encrypted message is: ', steganography('The threat has now been eradicated. All is well.', 'Beware threat still exists', 1))
+print('')
+print('Decryption:')
+print('')
+decryption(steganography('The threat has now been eradicated. All is well.', 'Beware threat still exists', 1), 1)
+print('')
+
+ 
 
