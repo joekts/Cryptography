@@ -1,4 +1,6 @@
-# Joe Holloway, 21017624, Cryptography Coursework
+# UFCFT4-15-3 Cryptography Written Assessment
+# Joe Holloway
+# Student Number: 21016724
 
 # ------------------------------ # # ------------------------------ # # ------------------------------ #
 # Task 1: Mini-ISBN
