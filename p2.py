@@ -1,8 +1,11 @@
 def bch_encoder():
+    # Print instructions
     print("Input 6 digits:")
+
+    # Get user input
     raw = input()
 
-    # Making sure the user has entered six digits
+    # Making sure the user has entered six digits, recursion if not
     if len(raw) != 6:
         print("Unusable number, try again")
         print()
@@ -29,6 +32,7 @@ def bch_encoder():
         bch_encoder()
         return
 
+    # Printing the codeword
     print("Your codeword is:", end=" ")
     for digit in codeword:
         print(digit, end="")

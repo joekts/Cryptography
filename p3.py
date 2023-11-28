@@ -1,5 +1,8 @@
 def bch_decoder():
+    # Print instructions
     print("Enter a BCH(10,6) codeword:")
+
+    # Get user input
     raw = input()
 
     # Check if user input is 10 digits
@@ -18,6 +21,7 @@ def bch_decoder():
     s3 = sum((i + 1) * (i + 1) * codeword[i] for i in range(10)) % 11
     s4 = sum((i + 1) * (i + 1) * (i + 1) * codeword[i] for i in range(10)) % 11
 
+    # Check if there are any errors
     if s1 == 0 and s2 == 0 and s3 == 0 and s4 == 0:
         print("No errors in this BCH(10,6) codeword")
     else:
@@ -26,12 +30,17 @@ def bch_decoder():
         q = (s1 * s4 - s2 * s3) % 11
         r = (s3 * s3 - s2 * s4) % 11
 
+        # Check if there are 1 or 2 errors
         if p == 0 and q == 0 and r == 0:
+
+            # Finding the position and magnitude of the error
             position = (s2 * inverse(s1)) % 11
             magnitude = s1
 
+            # Correcting the error
             codeword[position - 1] = (codeword[position - 1] - magnitude) % 11
 
+            # Printing the corrected codeword
             print(f"An error was found of magnitude {magnitude} in position {position} and has been corrected")
             print(f"The correct codeword is: {''.join(map(str, codeword))}")
         else:

@@ -10,9 +10,10 @@ def mini_ISBN():
     # Print instructions
     print("Enter a mini-ISBN to validate (digits only):")
 
+    # User input
     raw = input()
 
-    # Restarts method if invalid number is given
+    # Restarts method through recursion if invalid number is given
     if len(raw) != 5 and len(raw) != 6:
         print("This is not a valid mini-ISBN, try again")
         mini_ISBN()
@@ -20,23 +21,23 @@ def mini_ISBN():
 
     # Checking if 5 or 6 digits are given and using appropriate method
     if len(raw) == 6:
+
         # Initialize integer array
         ISBN = [0] * 6
 
         # Add user input to integer array
         for i in range(len(raw)):
-            # Assigning digit to a temporary object
-            temp = raw[i]
 
             # Checking for X in the ISBN and converting it to 10
-            if temp == 'X':
+            if raw[i] == 'X':
                 ISBN[i] = 10
             else:
-                ISBN[i] = int(temp)
+                ISBN[i] = int(raw[i])
 
-        # Calculating equation and reaching a total
+        # Initialising count variable
         count = 0
 
+        # Calculating equation and reaching a total
         for i in range(len(raw)):
             count += ISBN[i] * (len(raw) - i)
 
@@ -51,26 +52,29 @@ def mini_ISBN():
 
         # Add user input to integer array
         for i in range(len(raw)):
-            # Assigning digit to a temporary object
-            temp = raw[i]
 
             # Checking for X in the ISBN and converting it to 10
-            if temp == 'X':
+            if raw[i] == 'X':
                 ISBN[i] = 10
             else:
-                ISBN[i] = int(temp)
+                ISBN[i] = int(raw[i])
 
+        # Initialising count variable
         count = 0
 
+        # Calculating equation and reaching a total
         for i in range(len(raw)):
             count += ISBN[i] * (6 - i)
 
+        # Initialising array for possible outcomes
         digit6 = []
 
+        #  Adding valid digits to the array
         for i in range(11):
             if (count + i) % 7 == 0:
                 digit6.append(i)
 
+        # Printing possible outcomes
         if digit6:
             print("Possible outcomes for the sixth digit are: ")
             for i in digit6:
@@ -113,10 +117,13 @@ def sqrt(integer):
 # ------------------------------ #
 # BCH Generator
 def bch_encoder():
+    # Print instructions
     print("Input 6 digits:")
+
+    # Get user input
     raw = input()
 
-    # Making sure the user has entered six digits
+    # Making sure the user has entered six digits, recursion if not
     if len(raw) != 6:
         print("Unusable number, try again")
         print()
@@ -143,6 +150,7 @@ def bch_encoder():
         bch_encoder()
         return
 
+    # Printing the codeword
     print("Your codeword is:", end=" ")
     for digit in codeword:
         print(digit, end="")
@@ -152,7 +160,10 @@ def bch_encoder():
 # ------------------------------ #
 # BCH Correcting
 def bch_decoder():
+    # Print instructions
     print("Enter a BCH(10,6) codeword:")
+
+    # Get user input
     raw = input()
 
     # Check if user input is 10 digits
@@ -171,6 +182,7 @@ def bch_decoder():
     s3 = sum((i + 1) * (i + 1) * codeword[i] for i in range(10)) % 11
     s4 = sum((i + 1) * (i + 1) * (i + 1) * codeword[i] for i in range(10)) % 11
 
+    # Check if there are any errors
     if s1 == 0 and s2 == 0 and s3 == 0 and s4 == 0:
         print("No errors in this BCH(10,6) codeword")
     else:
@@ -179,28 +191,40 @@ def bch_decoder():
         q = (s1 * s4 - s2 * s3) % 11
         r = (s3 * s3 - s2 * s4) % 11
 
+        # Check if there are 1 or 2 errors
         if p == 0 and q == 0 and r == 0:
+
+            # Finding the position and magnitude of the error
             position = (s2 * inverse(s1)) % 11
             magnitude = s1
 
+            # Correcting the error
             codeword[position - 1] = (codeword[position - 1] - magnitude) % 11
 
+            # Printing the corrected codeword
             print(f"An error was found of magnitude {magnitude} in position {position} and has been corrected")
             print(f"The correct codeword is: {''.join(map(str, codeword))}")
         else:
 
+            # Checking for 2 errors, or 3 or more errors
             if(sqrt( (q*q) - (4*p*r) ) == -1):
+
                 print("There are 3 or more errors within this code")
+
             else:
+
+                # Finding the position and magnitude of the errors
                 i = ((-q + sqrt( (q*q) - (4*p*r) )) * inverse(2 * p)) % 11
                 j = ((-q - sqrt( (q*q) - (4*p*r) )) * inverse(2 * p)) % 11
 
                 b = (((i * s1) - s2) * inverse(i - j)) % 11
                 a = (s1 - b) % 11
 
+                # Correcting the errors
                 codeword[i - 1] = (codeword[i - 1] - a) % 11
                 codeword[j - 1] = (codeword[j - 1] - b) % 11
 
+                # Printing the corrected codeword
                 print("Two errors have been found and corrected in this codeword")
                 print(f"Error in position {i} of magnitude {a}")
                 print(f"Error in position {j} of magnitude {b}")

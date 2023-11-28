@@ -18,16 +18,17 @@ def validate_ISBN():
     # Add user input to integer array
     for i in range(len(raw)):
         # Assigning digit to a temporary object
-        temp = raw[i]
+        #temp = raw[i]
 
         # Checking for X in the ISBN and converting it to 10
-        if temp == 'X':
+        if raw[i] == 'X':
             ISBN[i] = 10
         else:
-            ISBN[i] = int(temp)
+            ISBN[i] = int(raw[i])
 
     # ISBN calculation and mod to validate ISBN
     count = 0
+
 
     for i in range(10):
         count += ISBN[i] * (i + 1)
@@ -52,19 +53,20 @@ def mini_ISBN():
 
     # Checking if 5 or 6 digits are given and using appropriate method
     if len(raw) == 6:
+
         # Initialize integer array
         ISBN = [0] * 6
 
         # Add user input to integer array
         for i in range(len(raw)):
             # Assigning digit to a temporary object
-            temp = raw[i]
+            #temp = raw[i]
 
             # Checking for X in the ISBN and converting it to 10
-            if temp == 'X':
+            if raw[i] == 'X':
                 ISBN[i] = 10
             else:
-                ISBN[i] = int(temp)
+                ISBN[i] = int(raw[i])
 
         # Calculating equation and reaching a total
         count = 0
